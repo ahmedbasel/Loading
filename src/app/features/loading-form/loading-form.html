@@ -1,0 +1,122 @@
+
+<div class="page">
+  <header class="page-header">
+    <p class="eyebrow">LOADING MANAGEMENT SYSTEM</p>
+    <h1>Register Loading Operation</h1>
+    <p class="subtitle">
+      Client and work order details are shared across all groups.
+    </p>
+  </header>
+
+  @if (successMessage) {
+    <div class="alert success">{{ successMessage }}</div>
+  }
+
+  @if (errorMessage) {
+    <div class="alert error">{{ errorMessage }}</div>
+  }
+
+  <form (ngSubmit)="submit()" #operationForm="ngForm">
+    <section class="panel">
+      <h2>Basic Information</h2>
+
+      <div class="form-grid">
+        <label>
+          Client Name *
+          <input
+            name="clientName"
+            [(ngModel)]="clientName"
+            required
+            placeholder="Client name"
+          />
+        </label>
+
+        <label>
+          Work Order *
+          <input
+            name="workOrder"
+            [(ngModel)]="workOrder"
+            required
+            placeholder="Work order number"
+          />
+        </label>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <div>
+          <h2>Groups</h2>
+          <p class="subtitle">
+            Each group has its own container number and photo.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          class="secondary"
+          (click)="addGroup()"
+        >
+          + Add Group
+        </button>
+      </div>
+
+      @for (group of groups; track $index) {
+        <div class="group-card">
+          <div class="group-heading">
+            <h3>Group {{ $index + 1 }}</h3>
+
+            @if (groups.length > 1) {
+              <button
+                type="button"
+                class="remove"
+                (click)="removeGroup($index)"
+              >
+                Remove Group
+              </button>
+            }
+          </div>
+
+          <div class="form-grid">
+            <label>
+              Container Number *
+              <input
+                [name]="'containerNumber' + $index"
+                [(ngModel)]="group.containerNumber"
+                required
+                placeholder="Container number"
+              />
+            </label>
+
+            <label>
+              Photo *
+              <input
+                type="file"
+                [name]="'photo' + $index"
+                accept="image/*"
+                required
+                (change)="onPhotoSelected($event, $index)"
+              />
+
+              @if (group.photoFile) {
+                <span class="file-name">
+                  {{ group.photoFile.name }}
+                </span>
+              }
+            </label>
+          </div>
+        </div>
+      }
+    </section>
+
+    <div class="form-actions">
+      <button
+        type="submit"
+        class="primary"
+        [disabled]="saving || operationForm.invalid"
+      >
+        {{ saving ? 'Uploading photos and saving...' : 'Save Loading Operation' }}
+      </button>
+    </div>
+  </form>
+</div>

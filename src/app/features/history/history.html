@@ -1,0 +1,89 @@
+
+<div class="history-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">RECORDS</p>
+      <h1>Loading History</h1>
+      <p class="muted">Search by client name, work order, or container number.</p>
+    </div>
+
+    <a class="primary-button" routerLink="/loading/new">
+      + New Operation
+    </a>
+  </header>
+
+  <section class="filters">
+    <label>
+      Search
+      <input
+        name="searchTerm"
+        [(ngModel)]="searchTerm"
+        placeholder="Client name, work order, container number..."
+      />
+    </label>
+
+    <label>
+      Month
+      <input
+        type="month"
+        name="selectedMonth"
+        [(ngModel)]="selectedMonth"
+      />
+    </label>
+
+    <button
+      type="button"
+      class="reset-button"
+      (click)="searchTerm = ''; selectedMonth = ''"
+    >
+      Clear Filters
+    </button>
+  </section>
+
+  @if (errorMessage) {
+    <p class="error">{{ errorMessage }}</p>
+  }
+
+  @if (loading) {
+    <p class="empty">Loading history...</p>
+  } @else if (filteredOperations.length === 0) {
+    <div class="empty">No operations match your search.</div>
+  } @else {
+    <div class="result-count">
+      Operations: {{ filteredOperations.length }}
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Client</th>
+            <th>Work Order</th>
+            <th>Containers</th>
+            <th>Groups</th>
+            <th>Date</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (operation of filteredOperations; track operation.id) {
+            <tr>
+              <td>{{ operation.clientName }}</td>
+              <td>{{ operation.workOrder }}</td>
+              <td>
+                @for (group of operation.groups; track $index) {
+                  <div>{{ group.containerNumber }}</div>
+                }
+              </td>
+              <td>{{ operation.groups?.length ?? 0 }}</td>
+              <td>{{ formatDate(operation.createdAt) }}</td>
+              <td>
+                <a [routerLink]="['/loading', operation.id]">Details</a>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

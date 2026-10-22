@@ -1,0 +1,72 @@
+
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #f5f8f6;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 5%;
+  background: #fff;
+  border-bottom: 1px solid #e0e9e3;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #18352a;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.brand-logo {
+  display: block;
+  width: 100px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.main-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.main-nav a {
+  padding: 10px 13px;
+  border-radius: 8px;
+  color: #52645a;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.main-nav a.active {
+  background: #e8f4ed;
+  color: #126b4b;
+}
+
+.app-content {
+  min-height: calc(100vh - 69px);
+}
+
+@media (max-width: 650px) {
+  .app-header {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 14px;
+  }
+
+  .main-nav {
+    width: 100%;
+  }
+
+  .main-nav a {
+    padding: 9px;
+  }
+}
