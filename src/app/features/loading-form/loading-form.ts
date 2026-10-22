@@ -1,6 +1,6 @@
 
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 
 import { Cloudinary } from '../../core/services/cloudinary';
 import { LoadingService } from '../../core/services/loading';
@@ -66,7 +66,7 @@ export class LoadingForm {
     this.cdr.detectChanges();
   }
 
-  async submit(): Promise<void> {
+  async submit(form: NgForm): Promise<void> {
     if (this.saving) return;
 
     this.errorMessage = '';
@@ -120,6 +120,8 @@ export class LoadingForm {
       this.groups = [
         { containerNumber: '', photoFile: null },
       ];
+      // Reset the native file input and Angular control state as well as the model.
+      form.resetForm();
     } catch (error) {
       console.error('Failed to save loading operation:', error);
 

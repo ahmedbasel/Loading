@@ -16,7 +16,7 @@
     <div class="alert error">{{ errorMessage }}</div>
   }
 
-  <form (ngSubmit)="submit()" #operationForm="ngForm">
+  <form (ngSubmit)="submit(operationForm)" #operationForm="ngForm">
     <section class="panel">
       <h2>Basic Information</h2>
 
